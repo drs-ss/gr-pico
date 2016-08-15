@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<block>
+  <name>Pico Source</name>
+  <key>pico_pico_src</key>
+  <category>DRS Blocks</category>
+  <import>import pico</import>
+  <make>pico.pico_src($pip, $mip, $mne_port, $data_port)
+self.$(id).update_sample_rate($value1sr)
+self.$(id).update_attenuation($value1atten)
+self.$(id).update_frequency($value1freq)
+self.$(id).update_channel($chan)
+  </make>
+  <callback>update_sample_rate($value1sr)</callback>
+  <callback>update_attenuation($value1atten)</callback>
+  <callback>update_frequency($value1freq)</callback>
+  <callback>update_channel($chan)</callback>
+  <param>
+    <name>Pico Command IP</name>
+    <key>pip</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Machine IP</name>
+    <key>mip</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Mnemonic App Port</name>
+    <key>mne_port</key>
+    <value>8081</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Data Stream Port</name>
+    <key>data_port</key>
+    <value>4991</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Channel</name>
+    <key>chan</key>
+    <value>1</value>
+    <type>int</type>
+        <option>
+            <name>1</name>
+            <key>1</key>
+        </option>
+  </param>
+  <param>
+      <name>Attenuation [dB]</name>
+      <key>value1atten</key>
+      <value>0</value>
+      <type>real</type>
+  </param>
+  <param>
+      <name>Frequency [Hz]</name>
+      <key>value1freq</key>
+      <value>100000000</value>
+      <type>real</type>
+  </param>
+  <param>
+      <name>Sample Rate [Hz]</name>
+      <key>value1sr</key>
+      <value>1000000</value>
+      <type>real</type>
+  </param>
+  <check>(6700000 >= $value1sr >= 356)</check>
+  <check>(46 >= $value1atten >= 0)</check>
+  <check>(3023293103 >= $value1freq >= 0)</check>
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+  <doc>
+This block will allow you to stream data from a Single Channel Picoflexor or PicoTransceiver.
+      
+The Pico must be running mnemonic app for this block to work.
+
+Parameters:
+      Pico Command IP   : The TCP connection for command and control.  
+      Machine IP        : The IP of the destination of the data packets.
+      Data Stream Port  : The port the UDP data is coming in on.
+      Channel           : Both the single channel Picoflexor and PicoTransceiver only support streaming on channel 1.
+      Attenuation       : Analog Attenuation
+        Accepts 0 dB to 46 dB
+      Frequency         : The center frequency for the output stream.
+        Accepts 0 Hz to 3023293103 Hz
+      Sample Rate       : The sample rate for the output stream.
+        Accepts 356 sps to 6700000 sps with a 1Hz resolution.
+
+  </doc>
+</block>

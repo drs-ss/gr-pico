@@ -1,0 +1,7 @@
+/*! \mainpage
+
+Welcome to the GNU Radio PICO Block
+
+This Pico block is designed to provide a single output stream of IQ data from a DRS Picoflexor or PicoTranceiver radio.  It provides basic command and control support for the use to modify the radio while running.
+
+*/

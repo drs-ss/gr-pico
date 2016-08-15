@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<block>
+  <name>Pico Sink</name>
+  <key>pico_pico_sink</key>
+  <category>DRS Blocks</category>
+  <import>import pico</import>
+  <make>pico.pico_sink($type.size, $pico_ip, $mne_port, $data_port)
+self.$(id).update_bandwidth($bw)
+self.$(id).update_sample_rate($sr)
+self.$(id).update_power($pwr)
+self.$(id).update_frequency($freq)</make>
+  <callback>update_sample_rate($sr)</callback>
+  <callback>update_power($pwr)</callback>
+  <callback>update_frequency($freq)</callback>
+  <callback>update_bandwidth($bw)</callback>
+  <param>
+    <name>Input Type</name>
+    <key>type</key>
+    <type>enum</type>
+    <option>
+        <name>Complex</name>
+        <key>complex</key>
+        <opt>size:gr.sizeof_gr_complex</opt>
+    </option>
+    <option>
+        <name>Short</name>
+        <key>short</key>
+        <opt>size:gr.sizeof_short</opt>
+    </option>
+    <option>
+        <name>Byte</name>
+        <key>byte</key>
+        <opt>size:gr.sizeof_char</opt>
+    </option>
+  </param>
+
+  <param>
+    <name>Pico IP</name>
+    <key>pico_ip</key>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Mnemonic Port</name>
+    <key>mne_port</key>
+    <value>8081</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Streaming Port</name>
+    <key>data_port</key>
+    <value>4991</value>
+    <type>int</type>
+  </param>
+
+  <param>
+      <name>Transmit Power [dBm]</name>
+      <key>pwr</key>
+      <value>-50</value>
+      <type>int</type>
+  </param>
+  <param>
+      <name>Frequency [Hz]</name>
+      <key>freq</key>
+      <value>100000000</value>
+      <type>real</type>
+  </param>
+  <param>
+      <name>Sample Rate [Hz]</name>
+      <key>sr</key>
+      <value>1920000</value>
+      <type>real</type>
+  </param>
+  <param>
+      <name>Bandwidth [Hz]</name>
+      <key>bw</key>
+      <value>1000000</value>
+      <type>real</type>
+  </param>
+  
+  <check>(10 >= $pwr >= -89.75)</check>
+  <check>(6302500000 >= $freq >= 46857032)</check>
+  <check>(6700000 >= $sr >= 356)</check>
+  <check>(56000000 >= $bw >= 250000)</check>
+  <sink>
+    <name>in</name>
+    <type>$type</type>
+  </sink>
+  <doc>
+This block will allow you to stream data to a PicoTransceiver through an ethernet connection.
+
+The PicoTransceiver must be running mnemonic app for this block to work.  
+
+Please note that the sample rate of any bandwidth can not be set higher than 6.7 Msps due to hardware limitations.
+
+      The PicoTransceiver expects 16 bit IQ values which are represented as two int16's ranging from 0-32767.
+When taking complex input this block will convert the samples automatically for the PicoTransceiver.
+When using any of the other data types, samples will be directly copied and sent to the PicoTransceiver
+without modification.
+
+Parameters:
+      Pico IP           : The IP address of the PicoTransceiver.
+      Mnemonic Port     : The port the Pico is running mnemonic app on.
+      Streaming Port    : The port the Pico will listen for IQ data on.
+      Transmit Power    : Analog Transmit Power
+         Accepts -89.75 dBm to 10 dBm (Maximum varies based on frequency) with a 0.25 dBm resolution
+      Frequency         : The center frequency for the transmitter.
+         Accepts 46857032 Hz to 6302500000 Hz with a 1 Hz resolution
+      Sample Rate       : The sample rate for the radio.
+         Accepts a maximum of 6700000 sps, actual rates vary based on bandwidth
+      Bandwidth         : Analog Bandwidth
+         Accepts :      250000 Hz
+                        500000 Hz
+                       1000000 Hz
+                       1500000 Hz
+                       1750000 Hz
+                       2000000 Hz
+                       2500000 Hz
+                       2750000 Hz
+                       3000000 Hz
+                       3840000 Hz
+                       5000000 Hz
+                       5500000 Hz
+                       6000000 Hz
+                       7680000 Hz
+                      10000000 Hz
+                      12000000 Hz
+                      14000000 Hz
+                      17600000 Hz
+                      20000000 Hz
+                      25000000 Hz
+                      28000000 Hz
+                      40000000 Hz
+                      50000000 Hz
+                      56000000 Hz
+  </doc>
+</block>
