@@ -8,7 +8,7 @@ This is the GNU Radio OOT module for command and control of the DRS Picoflexor a
 
 If you have GNURadio installed, you can install the block through the following install process.
 
-	git clone ADD REPO
+	git clone https://github.com/drs-ss/gr-pico.git
 	cd gr-pico
 	mkdir build
 	cd build
